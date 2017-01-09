@@ -2,39 +2,39 @@ package br.com.rogerio.desafio.dto;
 
 public class CityDTO {
 
-	private Long id;
+	private Long ibge_id;
 	private String uf;
 	private String name;
 	private boolean capital;
-	private Double longitude;
-	private Double latitude;
-	private String noAccents;
-	private String alternativeNames;
-	private String microRegion;
-	private String mesoRegion;
+	private Double lon;
+	private Double lat;
+	private String no_accents;
+	private String alternative_names;
+	private String microregion;
+	private String mesoregion;
 	
 	
 	public CityDTO(Long id, String uf, String name, boolean capital, Double longitude, Double latitude, String noAccents,
 			String alternativeNames, String microRegion, String mesoRegion) {
 		super();
-		this.id = id;
+		this.ibge_id = id;
 		this.uf = uf;
 		this.name = name;
 		this.capital = capital;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.noAccents = noAccents;
-		this.alternativeNames = alternativeNames;
-		this.microRegion = microRegion;
-		this.mesoRegion = mesoRegion;
+		this.lon = longitude;
+		this.lat = latitude;
+		this.no_accents = noAccents;
+		this.alternative_names = alternativeNames;
+		this.microregion = microRegion;
+		this.mesoregion = mesoRegion;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIbge_id() {
+		return ibge_id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIbge_id(Long ibge_id) {
+		this.ibge_id = ibge_id;
 	}
 
 	public String getUf() {
@@ -61,59 +61,59 @@ public class CityDTO {
 		this.capital = capital;
 	}
 
-	public Double getLongitude() {
-		return longitude;
+	public Double getLon() {
+		return lon;
 	}
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
+	public void setLon(Double lon) {
+		this.lon = lon;
 	}
 
-	public Double getLatitude() {
-		return latitude;
+	public Double getLat() {
+		return lat;
 	}
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 
-	public String getNoAccents() {
-		return noAccents;
+	public String getNo_accents() {
+		return no_accents;
 	}
 
-	public void setNoAccents(String noAccents) {
-		this.noAccents = noAccents;
+	public void setNo_accents(String no_accents) {
+		this.no_accents = no_accents;
 	}
 
-	public String getAlternativeNames() {
-		return alternativeNames;
+	public String getAlternative_names() {
+		return alternative_names;
 	}
 
-	public void setAlternativeNames(String alternativeNames) {
-		this.alternativeNames = alternativeNames;
+	public void setAlternative_names(String alternative_names) {
+		this.alternative_names = alternative_names;
 	}
 
-	public String getMicroRegion() {
-		return microRegion;
+	public String getMicroregion() {
+		return microregion;
 	}
 
-	public void setMicroRegion(String microRegion) {
-		this.microRegion = microRegion;
+	public void setMicroregion(String microregion) {
+		this.microregion = microregion;
 	}
 
-	public String getMesoRegion() {
-		return mesoRegion;
+	public String getMesoregion() {
+		return mesoregion;
 	}
 
-	public void setMesoRegion(String mesoRegion) {
-		this.mesoRegion = mesoRegion;
+	public void setMesoregion(String mesoregion) {
+		this.mesoregion = mesoregion;
 	}
 
 	@Override
 	public String toString() {
-		return id + ", " + uf + ", " + name + ", " + capital + ", " + longitude + ", "
-				+ latitude + ", " + noAccents + ", " + alternativeNames + ", "
-				+ microRegion + ", " + mesoRegion;
+		return ibge_id + ", " + uf + ", " + name + ", " + capital + ", " + lon + ", "
+				+ lat + ", " + no_accents + ", " + alternative_names + ", "
+				+ microregion + ", " + mesoregion;
 	}
 	
 	

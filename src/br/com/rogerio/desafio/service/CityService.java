@@ -1,11 +1,14 @@
 package br.com.rogerio.desafio.service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import br.com.rogerio.desafio.dto.CityDTO;
+import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
-import br.com.rogerio.desafio.exception.ParsingErroException;
 
 public class CityService {
 
@@ -23,146 +26,32 @@ public class CityService {
 		this.getCitiesList();
 	}
 
-	public Integer countDistinct(String property) {
-		List<String> distinctList = new ArrayList<String>();
-		int count = 0;
-		
-		return count;
-	}
-
-	public ArrayList<CityDTO> filter(String property, String value) throws ParsingErroException, EmptyCityListException {
-		ArrayList<CityDTO> filteredCities = new ArrayList<CityDTO>();
-		if (property.equals("IBGE_ID"))
-			filteredCities = findById(value);
-		if (property.equals("UF"))
-			filteredCities = findByUf(value);
-		if (property.equals("NAME"))
-			filteredCities = findByName(value);
-		if (property.equals("CAPITAL"))
-			filteredCities = findByIsCapital(value);
-		if (property.equals("LONGITUDE"))
-			filteredCities = findByLongitude(value);
-		if (property.equals("LATITUDE"))
-			filteredCities = findByLatitude(value);
-		if (property.equals("NO_ACCENTS"))
-			filteredCities = findByLNoAccentsName(value);
-		if (property.equals("ALTERNATIVE_NAMES"))
-			filteredCities = findByAlternativeName(value);
-		if (property.equals("MICROREGION"))
-			filteredCities = findByMicroRegion(value);
-		if (property.equals("MESOREGION"))
-			filteredCities = findByMesoRegion(value);
-		
-		if (filteredCities.isEmpty())
-			throw new EmptyCityListException();
-		return filteredCities;
-	}
-
-	private ArrayList<CityDTO> findByMesoRegion(String value) {
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getName().toUpperCase().equals(value))
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByMicroRegion(String value) {
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getMicroRegion().toUpperCase().equals(value))
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByAlternativeName(String value) {
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getAlternativeNames().toUpperCase().equals(value))
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByLNoAccentsName(String value) {
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getNoAccents().toUpperCase().equals(value))
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByLatitude(String value) throws ParsingErroException {
-		try{
-			Double latitude = Double.parseDouble(value);
-			ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-			for (CityDTO cityDTO : cities) {
-				if(cityDTO.getLatitude().equals(latitude))
-					returnList.add(cityDTO);
-			}
-			return returnList;
-		}catch (NumberFormatException e) {
-			throw new ParsingErroException();
-		}
-	}
-
-	private ArrayList<CityDTO> findByIsCapital(String value) throws ParsingErroException {
-		if (!value.equals("TRUE") && !value.equals("FALSE")) throw new ParsingErroException();
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		Boolean isCapital = Boolean.parseBoolean(value);
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getCapital() == isCapital)
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByName(String value) {
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getName().toUpperCase().equals(value))
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByUf(String value) {
-		ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-		for (CityDTO cityDTO : cities) {
-			if (cityDTO.getUf().equals(value))
-				returnList.add(cityDTO);
-		}
-		return returnList;
-	}
-
-	private ArrayList<CityDTO> findByLongitude(String value) throws ParsingErroException {
-		try{
-			Double longitude = Double.parseDouble(value);
-			ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-			for (CityDTO cityDTO : cities) {
-				if(cityDTO.getLongitude().equals(longitude))
-					returnList.add(cityDTO);
-			}
-			return returnList;
-		}catch (NumberFormatException e) {
-			throw new ParsingErroException();
-		}
-	}
-	
-	private ArrayList<CityDTO> findById(String value) throws ParsingErroException {
+	public ArrayList<CityDTO> filter(String property, String value) throws CityNotFoundException, EmptyCityListException{
+		if(cities == null || cities.isEmpty()) throw new EmptyCityListException();
+		ArrayList<CityDTO> filteredList = new ArrayList<CityDTO>();
+		property = property.toLowerCase();
+		String methodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1, property.length());
 		try {
-			ArrayList<CityDTO> returnList = new ArrayList<CityDTO>();
-			Long id = Long.parseLong(value);
-			for (CityDTO cityDTO : cities) {
-				if (cityDTO.getId().equals(id))
-					returnList.add(cityDTO);
+			for(CityDTO cityDTO : cities){
+				Class clazz = cityDTO.getClass();
+				Method method = clazz.getMethod(methodName);
+				if(method.invoke(cityDTO).toString().toLowerCase().equals(value)){
+					filteredList.add(cityDTO);
+				}
 			}
-			return returnList;
-		} catch (NumberFormatException e) {
-			throw new ParsingErroException();
+		} catch (NoSuchMethodException e) {
+			System.out.println("P");
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		return filteredList;
+
+		
 	}
 
 	public void getCitiesList() {

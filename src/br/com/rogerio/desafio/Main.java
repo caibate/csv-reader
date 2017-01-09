@@ -1,5 +1,6 @@
 package br.com.rogerio.desafio;
 
+import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.ParsingErroException;
@@ -16,14 +17,14 @@ public class Main {
 		while (true) {
 			try {
 				String command = menu.getCommand();
+				if(command.equals("exit")) break;
 				searchService.execute(command);
-				if(command.equals("EXIT")) break;
 			} catch (CommandNotFoundException e) {
-				System.out.println("Command not found.");
+				System.out.println("Command not found. \n");
 			} catch (EmptyCityListException e) {
-				System.out.println("Empty cities list.");
-			} catch (ParsingErroException e) {
-				System.out.println("Invalid value for especificated property.");
+				System.out.println("Empty cities list. \n");
+			}  catch (CityNotFoundException e) {
+				System.out.println("No city found by filter. \n");
 			}
 		}
 		System.out.println("Exiting...");
