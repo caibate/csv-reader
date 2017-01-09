@@ -4,6 +4,7 @@ import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.ParsingErroException;
+import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 import br.com.rogerio.desafio.menu.Menu;
 import br.com.rogerio.desafio.service.SearchService;
 
@@ -25,6 +26,8 @@ public class Main {
 				System.out.println("Empty cities list. \n");
 			}  catch (CityNotFoundException e) {
 				System.out.println("No city found by filter. \n");
+			} catch (PropertyNotFoundException e) {
+				System.out.println("Property not found. \n");
 			}
 		}
 		System.out.println("Exiting...");

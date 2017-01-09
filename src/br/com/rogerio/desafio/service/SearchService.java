@@ -6,33 +6,34 @@ import br.com.rogerio.desafio.dto.CityDTO;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
+import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 
 public class SearchService {
 
 	private CityService cityService = new CityService();
 
-	public void execute(String command) throws CommandNotFoundException, EmptyCityListException, CityNotFoundException{
+	public void execute(String command) throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException{
 		if(command.equals("exit")) return;
 		if(command.startsWith("count")) countCities(command);
 		if(command.startsWith("filter")) filterCities(command);
 	}
 
-	private void filterCities(String command) throws CommandNotFoundException, CityNotFoundException, EmptyCityListException {
+	private void filterCities(String command) throws CommandNotFoundException, CityNotFoundException, EmptyCityListException, PropertyNotFoundException {
 		if(command == null || command.isEmpty() || command.split(" ").length < 3) throw new CommandNotFoundException();
 		String[] commandArray = command.split(" ");
-		printFilterReturn(cityService.filter(commandArray[1], getFilterValue(command)));
+		printFilterReturn(cityService.filter(commandArray[1], getPropertyName(command)));
 	}
 
-	private String getFilterValue(String command) {
-		String c = command.replaceFirst("filter", "").trim();
+	private String getPropertyName(String command) {
+		String c = command.replaceFirst(command.split(" ")[0], "").trim();
 		return c.substring(c.indexOf(" ", 0), c.length()).trim();
 	}
 
-	private void countCities(String command) throws CommandNotFoundException, EmptyCityListException {
+	private void countCities(String command) throws CommandNotFoundException, EmptyCityListException, PropertyNotFoundException {
 		if(command == null || command.isEmpty() || !isValidCountCommand(command)) throw new CommandNotFoundException();
 		String[] commandArray = command.split(" ");
 		if(command.split(" ").length == 2 && commandArray[1].equals("*")) printCountReturn(cityService.countTotal());
-//		if(command.split(" ").length == 3) printCountReturn(cityService.countDistinct(commandArray[1]));
+		if(command.split(" ").length == 3) printCountReturn(cityService.countDistinct(getPropertyName(command)));
 	}
 
 	private boolean isValidCountCommand(String command) {
