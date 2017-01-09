@@ -1,55 +1,32 @@
 package br.com.rogerio.desafio;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import br.com.rogerio.desafio.dto.CityDTO;
+import br.com.rogerio.desafio.exception.CommandNotFoundException;
+import br.com.rogerio.desafio.exception.EmptyCityListException;
+import br.com.rogerio.desafio.exception.ParsingErroException;
+import br.com.rogerio.desafio.menu.Menu;
+import br.com.rogerio.desafio.service.SearchService;
 
 public class Main {
 
+	
 	public static void main(String[] args) {
-		run();
-	}
-
-	public static void run() {
-
-		ArrayList<CityDTO> cities = new ArrayList<CityDTO>();
-		String arquivoCSV = "cidades.csv";
-		BufferedReader br = null;
-		String linha = "";
-		String csvDivisor = ",";
-		try {
-
-			br = new BufferedReader(new FileReader(arquivoCSV));
-			br.readLine();
-			System.out.println("ibge_id, uf, name, capital, lon, lat, no_accents, alternative_names, microregion, mesoregion");
-			while ((linha = br.readLine()) != null) {
-				String[] city = linha.split(csvDivisor);
-				CityDTO cityDTO = new CityDTO(Long.parseLong(city[0]), city[1], city[2], Boolean.parseBoolean(city[3]), Double.parseDouble(city[4]), Double.parseDouble(city[5]), city[6], city[7], city[8], city[9]);
-				cities.add(cityDTO);
-			}
-			
-			for (CityDTO cityDTO : cities) {
-				System.out.println(cityDTO);
-				break;
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		SearchService searchService = new SearchService();
+		Menu menu = new Menu();
+		menu.printMenu();
+		while (true) {
+			try {
+				String command = menu.getCommand();
+				searchService.execute(command);
+				if(command.equals("EXIT")) break;
+			} catch (CommandNotFoundException e) {
+				System.out.println("Command not found.");
+			} catch (EmptyCityListException e) {
+				System.out.println("Empty cities list.");
+			} catch (ParsingErroException e) {
+				System.out.println("Invalid value for especificated property.");
 			}
 		}
-		
+		System.out.println("Exiting...");
 	}
+
 }
