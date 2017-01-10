@@ -6,13 +6,20 @@ import br.com.rogerio.desafio.dto.CityDTO;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
+import br.com.rogerio.desafio.exception.InvalidDataFormatException;
+import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 
 public class SearchService {
 
-	private CityService cityService = new CityService();
+	private CityService cityService;
+	private FileService fileService;
 
-	public void execute(String command) throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException{
+	public void execute(String command, String fileLocation) throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException{
+		if(command == null || command.isEmpty()) throw new CommandNotFoundException(); 
+		fileService = new FileService();
+		cityService = new CityService();
+		cityService.setCities(fileService.retrieveCities(fileLocation));
 		if(command.equals("exit")) return;
 		if(command.startsWith("count")) countCities(command);
 		if(command.startsWith("filter")) filterCities(command);
@@ -37,7 +44,7 @@ public class SearchService {
 	}
 
 	private boolean isValidCountCommand(String command) {
-		return command.split(" ").length == 2 || command.split(" ").length == 3;
+		return (command.split(" ").length == 2 && command.split(" ")[1].equals("*")) || command.split(" ").length == 3;
 	}
 	
 	private void printFilterReturn(ArrayList<CityDTO> result) throws CityNotFoundException{
@@ -46,11 +53,11 @@ public class SearchService {
 		for (CityDTO cityDTO : result) {
 			System.out.println(cityDTO.toString());
 		}
-		System.out.println("\n");
+		System.out.println("Total: " + result.size());
 	}
 	
 	private void printCountReturn(Integer result){
-		System.out.println("Total cities: " + result + "\n");
+		System.out.print("Total: " + result);
 		
 	}
 }

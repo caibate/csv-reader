@@ -14,7 +14,14 @@ import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 public class CityService {
 
 	private ArrayList<CityDTO> cities;
-	private FileService fileService;
+
+	public ArrayList<CityDTO> getCities() {
+		return cities;
+	}
+
+	public void setCities(ArrayList<CityDTO> cities) {
+		this.cities = cities;
+	}
 
 	public Integer countTotal() throws EmptyCityListException {
 		if (cities == null || cities.isEmpty())
@@ -24,7 +31,6 @@ public class CityService {
 
 	public CityService() {
 		super();
-		this.getCitiesList();
 	}
 
 	public ArrayList<CityDTO> filter(String property, String value) throws CityNotFoundException, EmptyCityListException, PropertyNotFoundException{
@@ -48,12 +54,8 @@ public class CityService {
 		return filteredList;
 	}
 
-	public void getCitiesList() {
-		fileService = new FileService();
-		cities = fileService.retrieveCities();
-	}
-
 	public Integer countDistinct(String property) throws EmptyCityListException, PropertyNotFoundException {
+		if(property == null || property.isEmpty()) throw new PropertyNotFoundException();
 		if(cities == null || cities.isEmpty()) throw new EmptyCityListException();
 		ArrayList<CityDTO> uniqueList = new ArrayList<CityDTO>();
 		try {

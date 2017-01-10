@@ -3,6 +3,8 @@ package br.com.rogerio.desafio;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
+import br.com.rogerio.desafio.exception.InvalidDataFormatException;
+import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.exception.ParsingErroException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 import br.com.rogerio.desafio.menu.Menu;
@@ -10,6 +12,7 @@ import br.com.rogerio.desafio.service.SearchService;
 
 public class Main {
 
+	private static final String FILE_LOCATION = "cidades.csv";
 	
 	public static void main(String[] args) {
 		SearchService searchService = new SearchService();
@@ -19,7 +22,7 @@ public class Main {
 			try {
 				String command = menu.getCommand();
 				if(command.equals("exit")) break;
-				searchService.execute(command);
+				searchService.execute(command, FILE_LOCATION);
 			} catch (CommandNotFoundException e) {
 				System.out.println("Command not found. \n");
 			} catch (EmptyCityListException e) {
@@ -28,7 +31,10 @@ public class Main {
 				System.out.println("No city found by filter. \n");
 			} catch (PropertyNotFoundException e) {
 				System.out.println("Property not found. \n");
+			} catch (InvalidFileException | InvalidDataFormatException e) {
+				System.out.println("Invalid file. \n");
 			}
+		System.out.println("\n");
 		}
 		System.out.println("Exiting...");
 	}

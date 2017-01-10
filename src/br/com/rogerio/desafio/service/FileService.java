@@ -7,18 +7,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import br.com.rogerio.desafio.dto.CityDTO;
+import br.com.rogerio.desafio.exception.EmptyCityListException;
+import br.com.rogerio.desafio.exception.InvalidDataFormatException;
+import br.com.rogerio.desafio.exception.InvalidFileException;
 
 public class FileService {
 
 	private static String FILE_DIVISOR = ",";
-	private static String FILE_LOCATION = "cidades.csv";
 	
-	public ArrayList<CityDTO> retrieveCities() {
+	public ArrayList<CityDTO> retrieveCities(String fileLocation) throws InvalidFileException, InvalidDataFormatException {
+		if(fileLocation == null || fileLocation.equals("")) throw new InvalidFileException();
 		ArrayList<CityDTO> cities = new ArrayList<CityDTO>();
 		BufferedReader br = null;
 		String line = "";
 		try {
-			br = new BufferedReader(new FileReader(FILE_LOCATION));
+			br = new BufferedReader(new FileReader(fileLocation));
 			br.readLine();
 			while ((line = br.readLine()) != null) {
 				String[] city = line.split(FILE_DIVISOR);
@@ -26,10 +29,13 @@ public class FileService {
 						Double.parseDouble(city[4]), Double.parseDouble(city[5]), city[6], city[7], city[8], city[9]);
 				cities.add(cityDTO);
 			}
+			if(cities.isEmpty()) throw new InvalidFileException();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new InvalidFileException();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e){
+			throw new InvalidDataFormatException();
 		} finally {
 			if (br != null) {
 				try {
