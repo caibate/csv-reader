@@ -11,11 +11,11 @@ import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
 
-public class FileService {
+public class CitiesFileLoader {
 
 	private static String FILE_DIVISOR = ",";
 	
-	public ArrayList<CityDTO> retrieveCities(String fileLocation) throws InvalidFileException, InvalidDataFormatException {
+	public ArrayList<CityDTO> loadCities(String fileLocation) throws InvalidFileException, InvalidDataFormatException {
 		if(fileLocation == null || fileLocation.equals("")) throw new InvalidFileException();
 		ArrayList<CityDTO> cities = new ArrayList<CityDTO>();
 		BufferedReader br = null;

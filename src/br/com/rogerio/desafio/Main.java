@@ -5,7 +5,6 @@ import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
-import br.com.rogerio.desafio.exception.ParsingErroException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 import br.com.rogerio.desafio.menu.Menu;
 import br.com.rogerio.desafio.service.SearchService;

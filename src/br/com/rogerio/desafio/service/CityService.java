@@ -9,6 +9,7 @@ import br.com.rogerio.desafio.dto.CityDTO;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
+import br.com.rogerio.desafio.normalizer.Normalizer;
 import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 
 public class CityService {
@@ -42,7 +43,10 @@ public class CityService {
 			for(CityDTO cityDTO : cities){
 				Class clazz = CityDTO.class;
 				Method method = clazz.getMethod(methodName);
-				if(method.invoke(cityDTO).toString().toLowerCase().equals(value)){
+				if(cityDTO.getIbge_id() == 4205407)
+				System.out.println("Compare - " +Normalizer.normalizeText(method.invoke(cityDTO).toString()) + " - " + Normalizer.normalizeText(value.toLowerCase()));
+				if(Normalizer.normalizeText(method.invoke(cityDTO).toString()).toLowerCase().equals(Normalizer.normalizeText(value.toLowerCase()))){
+//				if(method.invoke(cityDTO).toString().toLowerCase().equals(value.toLowerCase())){
 					filteredList.add(cityDTO);
 				}
 			}

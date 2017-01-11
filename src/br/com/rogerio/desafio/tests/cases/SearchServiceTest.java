@@ -31,93 +31,93 @@ public class SearchServiceTest {
 	    System.setOut(null);
 	}
 	
-	@Test
-	public void countAll() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count *", "cidades.csv");
-		assertEquals("Total: 5565", outContent.toString());
-	}
-	
-	@Test(expected = CommandNotFoundException.class)
-	public void invalidCountAll() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count all", "cidades.csv");
-	}
-	
-	@Test(expected = CommandNotFoundException.class)
-	public void invalidFilterCommand() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("filter teste", "cidades.csv");
-	}
-	
-	@Test()
-	public void countDistinctUf() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count distinct uf", "cidades.csv");
-		assertEquals("Total: 27", outContent.toString());
-	}
-	
-	@Test()
-	public void countDistinctMesoRegion() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count distinct mesoregion", "cidades.csv");
-		assertEquals("Total: 137", outContent.toString());
-	}
-	
-	@Test()
-	public void countDistinctMicroRegion() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count distinct microregion", "cidades.csv");
-		assertEquals("Total: 554", outContent.toString());
-	}
-
-	@Test(expected = PropertyNotFoundException.class)
-	public void invalidPropertyFilter() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException{
-		SearchService service = new SearchService();
-		service.execute("filter property value", "cidades.csv");
-	}
-	
+//	@Test
+//	public void countAll() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count *", "cidades.csv");
+//		assertEquals("Total: 5565", outContent.toString());
+//	}
+//	
+//	@Test(expected = CommandNotFoundException.class)
+//	public void invalidCountAll() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count all", "cidades.csv");
+//	}
+//	
+//	@Test(expected = CommandNotFoundException.class)
+//	public void invalidFilterCommand() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("filter teste", "cidades.csv");
+//	}
+//	
+//	@Test()
+//	public void countDistinctUf() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count distinct uf", "cidades.csv");
+//		assertEquals("Total: 27", outContent.toString());
+//	}
+//	
+//	@Test()
+//	public void countDistinctMesoRegion() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count distinct mesoregion", "cidades.csv");
+//		assertEquals("Total: 137", outContent.toString());
+//	}
+//	
+//	@Test()
+//	public void countDistinctMicroRegion() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count distinct microregion", "cidades.csv");
+//		assertEquals("Total: 554", outContent.toString());
+//	}
+//
+//	@Test(expected = PropertyNotFoundException.class)
+//	public void invalidPropertyFilter() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException{
+//		SearchService service = new SearchService();
+//		service.execute("filter property value", "cidades.csv");
+//	}
+//	
 	//REVER
 	@Test()
 	public void filterNameFlorianopolis() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
 		SearchService service = new SearchService();
-		service.execute("filter name Cabixi", "cidades.csv");
+		service.execute("filter name FLORIANÓPOLIS", "cidades.csv");
 		assertTrue(outContent.toString().contains("Total: 1"));
 	}
 	
-	@Test(expected = CommandNotFoundException.class)
-	public void emptyCommand() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("", "cidades.csv");
-	}
-	
-	@Test(expected = CommandNotFoundException.class)
-	public void nullCommand() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute(null, "cidades.csv");
-	}
-	
-	@Test(expected = InvalidFileException.class)
-	public void invalidFileLocation() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count *", "invalid.csv");
-	}
-
-	@Test(expected = InvalidFileException.class)
-	public void nullFileLocation() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count *", null);
-	}
-	
-	@Test(expected = InvalidFileException.class)
-	public void emptyFileLocation() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count *", "");
-	}
-	
-	@Test(expected = InvalidDataFormatException.class)
-	public void invalidFile() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
-		SearchService service = new SearchService();
-		service.execute("count *", "invalidFile.csv");
-	}
+//	@Test(expected = CommandNotFoundException.class)
+//	public void emptyCommand() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("", "cidades.csv");
+//	}
+//	
+//	@Test(expected = CommandNotFoundException.class)
+//	public void nullCommand() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute(null, "cidades.csv");
+//	}
+//	
+//	@Test(expected = InvalidFileException.class)
+//	public void invalidFileLocation() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count *", "invalid.csv");
+//	}
+//
+//	@Test(expected = InvalidFileException.class)
+//	public void nullFileLocation() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count *", null);
+//	}
+//	
+//	@Test(expected = InvalidFileException.class)
+//	public void emptyFileLocation() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count *", "");
+//	}
+//	
+//	@Test(expected = InvalidDataFormatException.class)
+//	public void invalidFile() throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException {
+//		SearchService service = new SearchService();
+//		service.execute("count *", "invalidFile.csv");
+//	}
 }

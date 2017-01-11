@@ -13,13 +13,13 @@ import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 public class SearchService {
 
 	private CityService cityService;
-	private FileService fileService;
+	private CitiesFileLoader fileService;
 
 	public void execute(String command, String fileLocation) throws CommandNotFoundException, EmptyCityListException, CityNotFoundException, PropertyNotFoundException, InvalidFileException, InvalidDataFormatException{
 		if(command == null || command.isEmpty()) throw new CommandNotFoundException(); 
-		fileService = new FileService();
+		fileService = new CitiesFileLoader();
 		cityService = new CityService();
-		cityService.setCities(fileService.retrieveCities(fileLocation));
+		cityService.setCities(fileService.loadCities(fileLocation));
 		if(command.equals("exit")) return;
 		if(command.startsWith("count")) countCities(command);
 		if(command.startsWith("filter")) filterCities(command);
