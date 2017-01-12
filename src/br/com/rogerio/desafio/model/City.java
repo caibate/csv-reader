@@ -1,6 +1,6 @@
-package br.com.rogerio.desafio.dto;
+package br.com.rogerio.desafio.model;
 
-public class CityDTO {
+public class City {
 
 	private Long ibge_id;
 	private String uf;
@@ -14,7 +14,7 @@ public class CityDTO {
 	private String mesoregion;
 	
 	
-	public CityDTO(Long id, String uf, String name, boolean capital, Double longitude, Double latitude, String noAccents,
+	public City(Long id, String uf, String name, boolean capital, Double longitude, Double latitude, String noAccents,
 			String alternativeNames, String microRegion, String mesoRegion) {
 		super();
 		this.ibge_id = id;

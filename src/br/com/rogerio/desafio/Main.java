@@ -3,23 +3,32 @@ package br.com.rogerio.desafio;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
-import br.com.rogerio.desafio.exception.ParsingErroException;
+import br.com.rogerio.desafio.exception.InvalidDataFormatException;
+import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 import br.com.rogerio.desafio.menu.Menu;
-import br.com.rogerio.desafio.service.SearchService;
+import br.com.rogerio.desafio.model.CommandEnum;
+import br.com.rogerio.desafio.service.CityService;
 
 public class Main {
 
+	private static final String FILE_LOCATION = "resource/cidades.csv";
 	
 	public static void main(String[] args) {
-		SearchService searchService = new SearchService();
+		CityService service = new CityService();
+		try {
+			service.loadCities(FILE_LOCATION);
+		} catch (InvalidFileException | InvalidDataFormatException e1) {
+			System.out.println("Invalid file. Exiting... \n");	
+			return;
+		}
 		Menu menu = new Menu();
 		menu.printMenu();
-		while (true) {
+		while(true) {
 			try {
 				String command = menu.getCommand();
-				if(command.equals("exit")) break;
-				searchService.execute(command);
+				if(command.equals(CommandEnum.EXIT.toString())) break;
+				service.execute(command);
 			} catch (CommandNotFoundException e) {
 				System.out.println("Command not found. \n");
 			} catch (EmptyCityListException e) {
@@ -29,6 +38,7 @@ public class Main {
 			} catch (PropertyNotFoundException e) {
 				System.out.println("Property not found. \n");
 			}
+		System.out.println("\n");
 		}
 		System.out.println("Exiting...");
 	}

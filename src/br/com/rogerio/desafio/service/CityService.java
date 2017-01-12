@@ -5,16 +5,29 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.rogerio.desafio.dto.CityDTO;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
+import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
+import br.com.rogerio.desafio.exception.InvalidDataFormatException;
+import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+import br.com.rogerio.desafio.file.CitiesFileLoader;
+import br.com.rogerio.desafio.model.City;
+import br.com.rogerio.desafio.model.CommandEnum;
+import br.com.rogerio.desafio.normalizer.Normalizer;
 
 public class CityService {
 
-	private ArrayList<CityDTO> cities;
-	private FileService fileService;
+	private ArrayList<City> cities;
+	private CitiesFileLoader fileLoader;
+	
+	public ArrayList<City> getCities() {
+		return cities;
+	}
+
+	public void setCities(ArrayList<City> cities) {
+		this.cities = cities;
+	}
 
 	public Integer countTotal() throws EmptyCityListException {
 		if (cities == null || cities.isEmpty())
@@ -24,19 +37,63 @@ public class CityService {
 
 	public CityService() {
 		super();
-		this.getCitiesList();
+		fileLoader = new CitiesFileLoader();
+	}
+	
+	private String getPropertyValue(String command) {
+		String c = command.replaceFirst(command.split(" ")[0], "").trim();
+		return c.substring(c.indexOf(" ", 0), c.length()).trim();
+	}
+	
+	public void execute(String command) throws EmptyCityListException, PropertyNotFoundException, CityNotFoundException, CommandNotFoundException{
+		if(command == null || command.isEmpty()) throw new CommandNotFoundException(); 
+		if(isExitCommand(command)) return;
+		if(isCountCommand(command)) count(command);
+		if(isFilterCommand(command)){
+			printFilterReturn(filter(command.split(" ")[1], getPropertyValue(command)));
+		}
+		
 	}
 
-	public ArrayList<CityDTO> filter(String property, String value) throws CityNotFoundException, EmptyCityListException, PropertyNotFoundException{
+	private void printFilterReturn(ArrayList<City> filteredList) throws CityNotFoundException {
+		if(filteredList == null || filteredList.isEmpty()) throw new CityNotFoundException();
+		System.out.println("ibge_id, uf, name, capital, lon, lat, no_accents, alternative_names, microregion, mesoregion");
+		for (City cityDTO : filteredList) {
+			System.out.println(cityDTO.toString());
+		}
+		System.out.println("Total: " + filteredList.size());
+	}
+
+	private boolean isExitCommand(String command) {
+		return command.equals(CommandEnum.EXIT.toString());
+	}
+
+	private boolean isFilterCommand(String command) {
+		return command.startsWith(CommandEnum.FILTER.toString()) && command.split(" ").length > 3;
+	}
+
+	private boolean isCountCommand(String command) {
+		return command.toUpperCase().startsWith(CommandEnum.COUNT.toString());
+	}
+
+	private void count(String command) throws EmptyCityListException, PropertyNotFoundException {
+		int count = 0;
+		if(command.split(" ").length == 2 && command.split(" ")[1].equals("*")) count = count();
+		if(command.split(" ").length == 3) count = countDistinct(command.split(" ")[2]);
+		System.out.print("Total: " + count);
+	}
+
+	public ArrayList<City> filter(String property, String value) throws CityNotFoundException, EmptyCityListException, PropertyNotFoundException{
 		if(cities == null || cities.isEmpty()) throw new EmptyCityListException();
-		ArrayList<CityDTO> filteredList = new ArrayList<CityDTO>();
+		ArrayList<City> filteredList = new ArrayList<City>();
 		property = property.toLowerCase();
 		String methodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1, property.length());
 		try {
-			for(CityDTO cityDTO : cities){
-				Class clazz = CityDTO.class;
+			for(City cityDTO : cities){
+				Class clazz = City.class;
 				Method method = clazz.getMethod(methodName);
-				if(method.invoke(cityDTO).toString().toLowerCase().equals(value)){
+				if(cityDTO.getIbge_id() == 4205407)
+				if(Normalizer.normalizeText(method.invoke(cityDTO).toString()).toLowerCase().equals(Normalizer.normalizeText(value.toLowerCase()))){
 					filteredList.add(cityDTO);
 				}
 			}
@@ -47,21 +104,22 @@ public class CityService {
 		}		
 		return filteredList;
 	}
-
-	public void getCitiesList() {
-		fileService = new FileService();
-		cities = fileService.retrieveCities();
+	
+	public Integer count() throws EmptyCityListException{
+		if(this.cities == null || cities.isEmpty()) throw new EmptyCityListException();
+		return cities.size();
 	}
 
 	public Integer countDistinct(String property) throws EmptyCityListException, PropertyNotFoundException {
+		if(property == null || property.isEmpty()) throw new PropertyNotFoundException();
 		if(cities == null || cities.isEmpty()) throw new EmptyCityListException();
-		ArrayList<CityDTO> uniqueList = new ArrayList<CityDTO>();
+		ArrayList<City> uniqueList = new ArrayList<City>();
 		try {
-			Class clazz = CityDTO.class;
+			Class clazz = City.class;
 			String methodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1, property.length());
 			Method method;
 			method = clazz.getMethod(methodName);
-			for (CityDTO cityDTO : cities) {
+			for (City cityDTO : cities) {
 				String value = method.invoke(cityDTO).toString().toLowerCase();
 				if(isUnique(uniqueList, method, value)) uniqueList.add(cityDTO);
 			}
@@ -73,10 +131,14 @@ public class CityService {
 		return uniqueList.size();
 	}
 
-	private boolean isUnique(List<CityDTO> uniqueList, Method method, String value) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		for (CityDTO cityDTO : uniqueList) {
+	private boolean isUnique(List<City> uniqueList, Method method, String value) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		for (City cityDTO : uniqueList) {
 			if(method.invoke(cityDTO).toString().toLowerCase().equals(value)) return false;
 		}
 		return true;
+	}
+
+	public void loadCities(String fileLocation) throws InvalidFileException, InvalidDataFormatException {
+		this.setCities(fileLoader.loadCities(fileLocation));
 	}
 }
