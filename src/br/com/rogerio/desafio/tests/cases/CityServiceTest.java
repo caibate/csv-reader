@@ -25,7 +25,7 @@ public class CityServiceTest {
 	public void config() throws InvalidFileException, InvalidDataFormatException{
 		fileService = new CitiesFileLoader();
 		service = new CityService();
-		service.setCities(fileService.loadCities("resource/cidades.csv"));
+		service.setCities(fileService.loadCities("cidades.csv"));
 	}
 	
 	@Test

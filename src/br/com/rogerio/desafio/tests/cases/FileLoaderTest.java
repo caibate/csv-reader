@@ -19,7 +19,7 @@ public class FileLoaderTest {
 	public void retrieveCitiesList() throws InvalidFileException, InvalidDataFormatException {
 		CitiesFileLoader fileService = new CitiesFileLoader();
 		ArrayList<City> citiesList = new ArrayList<City>();
-		citiesList = fileService.loadCities("resource/cidades.csv");
+		citiesList = fileService.loadCities("cidades.csv");
 		assertNotNull(citiesList);
 		assertTrue(citiesList.size() > 0);
 	}
@@ -27,13 +27,13 @@ public class FileLoaderTest {
 	@Test(expected = InvalidDataFormatException.class)
 	public void invalidFile() throws InvalidFileException, InvalidDataFormatException{
 		CitiesFileLoader fileService = new CitiesFileLoader();
-		fileService.loadCities("resource/invalidFile.csv");
+		fileService.loadCities("invalidFile.csv");
 	}
 	
 	@Test(expected = InvalidFileException.class)
 	public void fileNotFound() throws InvalidFileException, InvalidDataFormatException{
 		CitiesFileLoader fileService = new CitiesFileLoader();
-		fileService.loadCities("resource/fileNotFound.csv");
+		fileService.loadCities("fileNotFound.csv");
 	}
 	
 	@Test(expected= InvalidFileException.class)

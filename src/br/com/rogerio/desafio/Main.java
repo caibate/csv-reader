@@ -12,7 +12,7 @@ import br.com.rogerio.desafio.service.CityService;
 
 public class Main {
 
-	private static final String FILE_LOCATION = "resource/cidades.csv";
+	private static final String FILE_LOCATION = "cidades.csv";
 	
 	public static void main(String[] args) {
 		CityService service = new CityService();

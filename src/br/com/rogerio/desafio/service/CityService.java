@@ -116,7 +116,7 @@ public class CityService {
 		ArrayList<City> uniqueList = new ArrayList<City>();
 		try {
 			Class clazz = City.class;
-			String methodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1, property.length());
+			String methodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1, property.length()).toLowerCase();
 			Method method;
 			method = clazz.getMethod(methodName);
 			for (City cityDTO : cities) {
