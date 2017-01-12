@@ -5,10 +5,11 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import br.com.rogerio.desafio.tests.cases.CityServiceTest;
-import br.com.rogerio.desafio.tests.cases.FileServiceTest;
+import br.com.rogerio.desafio.tests.cases.FileLoaderTest;
+import br.com.rogerio.desafio.tests.cases.NormalizerTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CityServiceTest.class, FileServiceTest.class })
+@SuiteClasses({ CityServiceTest.class, FileLoaderTest.class, NormalizerTest.class })
 public class AllTests {
 
 }

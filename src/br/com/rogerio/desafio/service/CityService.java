@@ -69,7 +69,7 @@ public class CityService {
 	}
 
 	private boolean isFilterCommand(String command) {
-		return command.startsWith(CommandEnum.FILTER.toString()) && command.split(" ").length > 3;
+		return command.startsWith(CommandEnum.FILTER.toString()) && command.split(" ").length >= 3;
 	}
 
 	private boolean isCountCommand(String command) {
@@ -85,6 +85,7 @@ public class CityService {
 
 	public ArrayList<City> filter(String property, String value) throws CityNotFoundException, EmptyCityListException, PropertyNotFoundException{
 		if(cities == null || cities.isEmpty()) throw new EmptyCityListException();
+		if(property == null || value == null) throw new PropertyNotFoundException();
 		ArrayList<City> filteredList = new ArrayList<City>();
 		property = property.toLowerCase();
 		String methodName = "get" + property.substring(0, 1).toUpperCase() + property.substring(1, property.length());
@@ -92,7 +93,6 @@ public class CityService {
 			for(City cityDTO : cities){
 				Class clazz = City.class;
 				Method method = clazz.getMethod(methodName);
-				if(cityDTO.getIbge_id() == 4205407)
 				if(Normalizer.normalizeText(method.invoke(cityDTO).toString()).toLowerCase().equals(Normalizer.normalizeText(value.toLowerCase()))){
 					filteredList.add(cityDTO);
 				}
