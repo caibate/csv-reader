@@ -12,7 +12,7 @@ import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.file.CitiesFileLoader;
 import br.com.rogerio.desafio.model.City;
 
-public class FileServiceTest {
+public class FileLoaderTest {
 
 	
 	@Test
