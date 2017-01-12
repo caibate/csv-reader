@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
 import br.com.rogerio.desafio.model.CommandEnum;
-import br.com.rogerio.desafio.normalizer.Normalizer;
 
 public class Menu {
 	

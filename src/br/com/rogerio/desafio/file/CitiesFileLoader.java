@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
-import br.com.rogerio.desafio.model.CityDTO;
+import br.com.rogerio.desafio.model.City;
 
 public class CitiesFileLoader {
 
 	private static String FILE_DIVISOR = ",";
 	
-	public ArrayList<CityDTO> loadCities(String fileLocation) throws InvalidFileException, InvalidDataFormatException {
+	public ArrayList<City> loadCities(String fileLocation) throws InvalidFileException, InvalidDataFormatException {
 		if(fileLocation == null || fileLocation.equals("")) throw new InvalidFileException();
-		ArrayList<CityDTO> cities = new ArrayList<CityDTO>();
+		ArrayList<City> cities = new ArrayList<City>();
 		BufferedReader br = null;
 		String line = "";
 		try {
@@ -24,7 +24,7 @@ public class CitiesFileLoader {
 			br.readLine();
 			while ((line = br.readLine()) != null) {
 				String[] city = line.split(FILE_DIVISOR);
-				CityDTO cityDTO = new CityDTO(Long.parseLong(city[0]), city[1], city[2], Boolean.parseBoolean(city[3]),
+				City cityDTO = new City(Long.parseLong(city[0]), city[1], city[2], Boolean.parseBoolean(city[3]),
 						Double.parseDouble(city[4]), Double.parseDouble(city[5]), city[6], city[7], city[8], city[9]);
 				cities.add(cityDTO);
 			}

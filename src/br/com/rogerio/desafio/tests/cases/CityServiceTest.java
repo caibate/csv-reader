@@ -18,7 +18,7 @@ public class CityServiceTest {
 	@Test
 	public void countTotal() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		assertTrue(service.countTotal().equals(5565));
 	}
 
@@ -37,7 +37,7 @@ public class CityServiceTest {
 	@Test(expected = InvalidDataFormatException.class)
 	public void countTotalInvalidDataFormat() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("invalidFile.csv"));
+		service.setCities(fileService.loadCities("resource/invalidFile.csv"));
 	}
 	
 	@Test(expected = EmptyCityListException.class)
@@ -49,56 +49,56 @@ public class CityServiceTest {
 	@Test()
 	public void countDistinctUf() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		assertTrue(service.countDistinct("uf").equals(27));
 	}
 	
 	@Test()
 	public void countDistinctMesoRegion() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		assertTrue(service.countDistinct("mesoregion").equals(137));
 	}
 	
 	@Test()
 	public void countDistinctMicroRegion() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		assertTrue(service.countDistinct("microregion").equals(554));
 	}
 	
 	@Test()
 	public void countDistinctId() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		assertTrue(service.countDistinct("ibge_id").equals(5565));
 	}
 	
 	@Test()
 	public void countDistinctName() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		assertTrue(service.countDistinct("name").equals(5291));
 	}
 	
 	@Test(expected = PropertyNotFoundException.class)
 	public void countInvalidProperty() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		service.countDistinct("invalidproperty");
 	}
 	
 	@Test(expected = PropertyNotFoundException.class)
 	public void countEmptyProperty() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		service.countDistinct("");
 	}
 	
 	@Test(expected = PropertyNotFoundException.class)
 	public void countNullProperty() throws EmptyCityListException, InvalidFileException, InvalidDataFormatException, PropertyNotFoundException {
 		CityService service = new CityService();
-		service.setCities(fileService.loadCities("cidades.csv"));
+		service.setCities(fileService.loadCities("resource/cidades.csv"));
 		service.countDistinct(null);
 	}
 	
