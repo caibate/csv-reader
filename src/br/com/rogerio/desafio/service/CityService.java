@@ -5,12 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.rogerio.desafio.dto.CityDTO;
 import br.com.rogerio.desafio.exception.CityNotFoundException;
 import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
+import br.com.rogerio.desafio.model.CityDTO;
 import br.com.rogerio.desafio.normalizer.Normalizer;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 
 public class CityService {
 
@@ -44,7 +43,7 @@ public class CityService {
 				Class clazz = CityDTO.class;
 				Method method = clazz.getMethod(methodName);
 				if(cityDTO.getIbge_id() == 4205407)
-				System.out.println("Compare - " +Normalizer.normalizeText(method.invoke(cityDTO).toString()) + " - " + Normalizer.normalizeText(value.toLowerCase()));
+//				System.out.println("Compare - " +Normalizer.normalizeText(method.invoke(cityDTO).toString().toLowerCase()) + " - " + Normalizer.normalizeText(value.toLowerCase()));
 				if(Normalizer.normalizeText(method.invoke(cityDTO).toString()).toLowerCase().equals(Normalizer.normalizeText(value.toLowerCase()))){
 //				if(method.invoke(cityDTO).toString().toLowerCase().equals(value.toLowerCase())){
 					filteredList.add(cityDTO);

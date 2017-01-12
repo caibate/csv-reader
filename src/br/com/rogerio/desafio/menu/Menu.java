@@ -3,6 +3,8 @@ package br.com.rogerio.desafio.menu;
 import java.util.Scanner;
 
 import br.com.rogerio.desafio.exception.CommandNotFoundException;
+import br.com.rogerio.desafio.model.CommandEnum;
+import br.com.rogerio.desafio.normalizer.Normalizer;
 
 public class Menu {
 	
@@ -15,7 +17,7 @@ public class Menu {
 
 	public String getCommand() throws CommandNotFoundException {
 		System.out.print("Enter your command: ");
-		String command = scanner.nextLine().toLowerCase().replaceAll("  ", " ");
+		String command = scanner.nextLine().toUpperCase();
 		if(!isValid(command)) throw new CommandNotFoundException();
 		return command;
 	}
@@ -23,11 +25,11 @@ public class Menu {
 	private boolean isValid(String command) {
 		String[] commandArray = command.split(" ");
 		if(command == null || command.isEmpty() || commandArray.length == 0) return false;
-		if(command.equals("exit")) return true;
-		if (commandArray[0].equals("filter"))
+		if(command.equals(CommandEnum.EXIT.toString())) return true;
+		if (commandArray[0].equals(CommandEnum.FILTER.toString()))
 			if (commandArray.length >= 3) return true;
 			else return false;
-		if (commandArray[0].equals("count")) {
+		if (commandArray[0].equals(CommandEnum.COUNT.toString())) {
 			if (commandArray.length == 2) return isCountTotal(commandArray);
 			if (commandArray.length == 3) return true;
 		}

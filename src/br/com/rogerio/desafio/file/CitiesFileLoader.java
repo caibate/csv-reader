@@ -1,4 +1,4 @@
-package br.com.rogerio.desafio.service;
+package br.com.rogerio.desafio.file;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,10 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import br.com.rogerio.desafio.dto.CityDTO;
-import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
+import br.com.rogerio.desafio.model.CityDTO;
 
 public class CitiesFileLoader {
 

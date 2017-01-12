@@ -7,6 +7,7 @@ import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
 import br.com.rogerio.desafio.menu.Menu;
+import br.com.rogerio.desafio.model.CommandEnum;
 import br.com.rogerio.desafio.service.SearchService;
 
 public class Main {
@@ -17,10 +18,10 @@ public class Main {
 		SearchService searchService = new SearchService();
 		Menu menu = new Menu();
 		menu.printMenu();
-		while (true) {
+		while(true) {
 			try {
 				String command = menu.getCommand();
-				if(command.equals("exit")) break;
+				if(command.equals(CommandEnum.EXIT.toString())) break;
 				searchService.execute(command, FILE_LOCATION);
 			} catch (CommandNotFoundException e) {
 				System.out.println("Command not found. \n");

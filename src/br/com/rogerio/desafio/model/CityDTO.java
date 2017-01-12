@@ -1,4 +1,4 @@
-package br.com.rogerio.desafio.dto;
+package br.com.rogerio.desafio.model;
 
 public class CityDTO {
 

@@ -1,12 +1,16 @@
 package br.com.rogerio.desafio.tests.cases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
+
 import org.junit.Test;
-import br.com.rogerio.desafio.dto.CityDTO;
+
 import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
-import br.com.rogerio.desafio.service.CitiesFileLoader;
+import br.com.rogerio.desafio.file.CitiesFileLoader;
+import br.com.rogerio.desafio.model.CityDTO;
 
 public class FileServiceTest {
 
@@ -23,25 +27,24 @@ public class FileServiceTest {
 	@Test(expected = InvalidDataFormatException.class)
 	public void invalidFile() throws InvalidFileException, InvalidDataFormatException{
 		CitiesFileLoader fileService = new CitiesFileLoader();
-		ArrayList<CityDTO> citiesList = fileService.loadCities("invalidFile.csv");
+		fileService.loadCities("invalidFile.csv");
 	}
 	
 	@Test(expected = InvalidFileException.class)
 	public void fileNotFound() throws InvalidFileException, InvalidDataFormatException{
 		CitiesFileLoader fileService = new CitiesFileLoader();
-		ArrayList<CityDTO> citiesList = fileService.loadCities("fileNotFound.csv");
+		fileService.loadCities("fileNotFound.csv");
 	}
 	
 	@Test(expected= InvalidFileException.class)
 	public void nullFileLocation() throws InvalidFileException, InvalidDataFormatException{
 		CitiesFileLoader fileService = new CitiesFileLoader();
-		ArrayList<CityDTO> citiesList = fileService.loadCities(null);		
+		fileService.loadCities(null);		
 	}
 	
 	@Test(expected= InvalidFileException.class)
 	public void emptyFileLocation() throws InvalidFileException, InvalidDataFormatException{
 		CitiesFileLoader fileService = new CitiesFileLoader();
-		ArrayList<CityDTO> citiesList = fileService.loadCities("");		
+		fileService.loadCities("");		
 	}
-
 }

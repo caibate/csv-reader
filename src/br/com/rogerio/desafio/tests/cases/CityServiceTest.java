@@ -1,6 +1,6 @@
 package br.com.rogerio.desafio.tests.cases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -8,8 +8,8 @@ import br.com.rogerio.desafio.exception.EmptyCityListException;
 import br.com.rogerio.desafio.exception.InvalidDataFormatException;
 import br.com.rogerio.desafio.exception.InvalidFileException;
 import br.com.rogerio.desafio.exception.PropertyNotFoundException;
+import br.com.rogerio.desafio.file.CitiesFileLoader;
 import br.com.rogerio.desafio.service.CityService;
-import br.com.rogerio.desafio.service.CitiesFileLoader;
 
 public class CityServiceTest {
 
